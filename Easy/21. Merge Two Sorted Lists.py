@@ -1,22 +1,27 @@
-def mergeTwoLists(list1, list2):
-    newList = []
-    list1copy = list(list1)
-    list2copy = list(list2)
-    for i in range(len(list1) if len(list1)<len(list2) else len(list2)):
-        if list1[i]<list2[i]:
-            newList.append(list1[i])
-            list1copy.pop(0)
-            newList.append(list2[i])
-            list2copy.pop(0)
-        else:
-            newList.append(list2[i])
-            list2copy.pop(0)
-            newList.append(list1[i])
-            list1copy.pop(0)
-    if len(list1copy)==0:
-        newList+=list2copy
-    else:
-        newList+=list1copy
-    return newList
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-print(mergeTwoLists(list1 = [], list2 = []))
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        if not list1: return list2
+        if not list2: return list1
+
+        current = dummy = ListNode(0)
+        while list1 and list2:
+            if list1.val<list2.val:
+                current.next = list1
+                list1 = list1.next
+            else:
+                current.next = list2
+                list2 = list2.next
+            current = current.next
+
+        if list1:
+            current.next = list1
+        if list2:
+            current.next = list2
+
+        return dummy.next
